@@ -132,12 +132,32 @@ const stakeAmountInput = document.getElementById('stakeAmount');
 const stakeTierSelect = document.getElementById('stakeTier');
 const userStakesContainer = document.getElementById('userStakesContainer');
 
-// Конфигурация тиров (для отображения)
+// Конфигурация тиров (для отображения и РАСЧЕТА)
 const TIER_CONFIGS = {
-    0: { name: "Гибкий", apy: "10.5%" },
-    1: { name: "7 дней", apy: "15.0%" },
-    2: { name: "30 дней", apy: "18.0%" },
-    3: { name: "90 дней", apy: "22.5%" }
+    // 7 дней = 604,800 секунд
+    // 30 дней = 2,592,000 секунд
+    // 90 дней = 7,776,000 секунд
+    
+    0: { 
+        name: "Гибкий", 
+        apy: "10.5%", 
+        durationSeconds: 0 // Для гибкого стейкинга длительность равна 0
+    },
+    1: { 
+        name: "7 дней", 
+        apy: "15.0%", 
+        durationSeconds: 604800 // <-- ДОБАВЛЕНО
+    },
+    2: { 
+        name: "30 дней", 
+        apy: "18.0%", 
+        durationSeconds: 2592000 // <-- ДОБАВЛЕНО
+    },
+    3: { 
+        name: "90 дней", 
+        apy: "22.5%", 
+        durationSeconds: 7776000 // <-- ДОБАВЛЕНО
+    }
 };
 
 // Функция предназначена для отображение значений токена MCF (балансы, суммы стейков, награды) 
@@ -1118,3 +1138,4 @@ async function addTokenToMetamask() {
 </body>
 
 </html>
+
