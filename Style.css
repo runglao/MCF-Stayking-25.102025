@@ -406,6 +406,116 @@ main {
 }
 
 
+
+
+/* ----------------------------------------------------------------- */
+/* СТИЛИ ДЛЯ ФОРМЫ ОТПРАВКИ ТОКЕНОВ MCF */
+/* ----------------------------------------------------------------- */
+
+#transferFormBlock {
+    background: #1f2a38; 
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+#transferFormBlock h3 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #3e5066;
+    padding-bottom: 10px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #b0c4de;
+    font-weight: bold;
+}
+
+/* Стили для полей ввода */
+#recipientAddressInput,
+#transferAmountInput {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #3e5066;
+    border-radius: 8px;
+    background-color: #2a3b4c; 
+    color: #ffffff;
+    font-size: 1em;
+    box-sizing: border-box; 
+    transition: border-color 0.3s;
+}
+
+#recipientAddressInput:focus,
+#transferAmountInput:focus {
+    border-color: #4CAF50; 
+    outline: none;
+}
+
+/* Стили для кнопки "Отправить" */
+#sendTokenButton {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+#sendTokenButton:hover {
+    background-color: #45a049; 
+}
+
+#sendTokenButton:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Стили для сообщения о статусе транзакции */
+#transferStatus {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #ffcccc; 
+    background-color: #4a1717; 
+    border: 1px solid #8b0000;
+}
+
+/* Стиль для успешной транзакции */
+#transferStatus.success {
+    color: #ccffcc;
+    background-color: #174a17;
+    border-color: #008b00;
+}
+
+/* Общий стиль для скрытия
+.hidden {
+    display: none !important;
+} */
+
+
+
+
+
 /* --- FOOTER --- */
 footer { 
     color: white; 
@@ -467,3 +577,4 @@ footer {
     }
 
 }
+
