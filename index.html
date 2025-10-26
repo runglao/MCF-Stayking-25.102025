@@ -1171,10 +1171,90 @@ async function addTokenToMetamask() {
     init();
     animate();
 })();
-     
+
+
+       // URL для получения цен. Мы запрашиваем последнюю цену по каждой паре.
+ const BINANCE_API_URL = 'https://api.binance.com/api/v3/ticker/price';
+
+ // Список тикеров, которые вы хотите отобразить
+ const SYMBOLS_TO_FETCH = [
+    'BTCUSDT', 
+    'ETHUSDT', 
+    'XRPUSDT', 
+    'BNBUSDT', 
+    'SOLUSDT', 
+    'TRXUSDT', 
+    'ARBUSDT', 
+    'SUIUSDT'
+];
+
+ // Обновляет HTML-элемент с новой ценой, форматируя ее.
+ 
+ function updatePriceDisplay(elementId, price) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        let formattedPrice = parseFloat(price).toFixed(2); 
+        
+        if (parseFloat(price) < 10) {
+             formattedPrice = parseFloat(price).toFixed(4);
+        }
+        
+        element.textContent = `$${formattedPrice}`;
+        
+        // Опционально: Можно добавить класс для визуального эффекта обновления
+        // element.classList.add('price-update-animation');
+        // setTimeout(() => element.classList.remove('price-update-animation'), 500);
+    }
+}
+
+ // Отправляет запрос к API Binance и обновляет все цены
+  async function fetchBinancePrices() {
+    try {
+        // Создаем строку параметров для запроса (e.g., ?symbols=["BTCUSDT","ETHUSDT",...])
+        const symbolsParam = JSON.stringify(SYMBOLS_TO_FETCH);
+        const url = `${BINANCE_API_URL}?symbols=${symbolsParam}`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Обрабатываем массив данных
+        data.forEach(item => {
+            // Например, symbol: "BTCUSDT", price: "60000.50"
+            const symbolBase = item.symbol.replace('USDT', '').toLowerCase(); // btc, eth, xrp, ...
+            
+            // Находим соответствующий элемент по ID (например, 'btc-price')
+            const elementId = `${symbolBase}-price`; 
+            
+            updatePriceDisplay(elementId, item.price);
+        });
+
+    } catch (error) {
+        console.error("❌ Ошибка при получении котировок с Binance:", error);
+        // Можно добавить обновление статуса на UI
+    }
+}
+
+ // ЗАПУСК И ОБНОВЛЕНИЕ
+
+
+// 1. Вызываем функцию один раз при загрузке страницы
+ fetchBinancePrices(); 
+
+ // 2. Настраиваем автоматическое обновление каждые 15 секунд
+ // Binance позволяет делать много запросов, но 15 секунд — разумный интервал.
+ setInterval(fetchBinancePrices, 15000);
+
+
+
+
+        
     </script>
 </body>
 
 </html>
+
 
 
