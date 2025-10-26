@@ -314,6 +314,98 @@ main {
 
 .hidden {display: none; }
 
+
+/* СТИЛИ ДЛЯ БЛОКА КРИПТОВАЛЮТНЫХ КОТИРОВОК (ПЛИТКИ)  */
+
+
+/* Основной контейнер для блока котировок */
+#crypto-prices-block {
+    background: #1f2a3844; 
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+#crypto-prices-block h3 {
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px; /* Увеличили отступ */
+    font-size: 1.4em;
+    border-bottom: 2px solid #3e5066;
+    padding-bottom: 10px;
+}
+
+/* Контейнер для сетки плиток (используем CSS Grid) */
+.crypto-grid {
+    display: grid;
+    /* Создаем 2 колонки, каждая занимает равное пространство */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; /* Расстояние между плитками */
+    justify-items: center; /* Центрируем плитки в ячейках */
+}
+
+/* Стилизация отдельной плитки котировки */
+.crypto-tile {
+    background: #2a3b4c3f; /* Чуть светлее фон для каждой плитки */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    width: 100%; /* Занимает всю ширину колонки */
+    max-width: 180px; /* Максимальная ширина плитки, чтобы не растягивались на больших экранах */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex; /* Flexbox для содержимого плитки */
+    flex-direction: column; /* Элементы друг под другом */
+    justify-content: space-between; /* Распределение пространства */
+    align-items: center; /* Центрирование содержимого */
+}
+
+/* Эффект при наведении на плитку */
+.crypto-tile:hover {
+    transform: translateY(-3px); /* Легкий подъем */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Стиль для названия котировки (BTC/USDT) */
+.crypto-tile .tile-symbol {
+    font-size: 0.95em;
+    font-weight: 500;
+    color: #b0c4de; /* Более мягкий цвет для символа */
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* Стиль для отображения цены */
+.crypto-tile .tile-price {
+    font-size: 1.5em; /* Увеличили размер цены */
+    font-weight: 700;
+    color: #4CAF50; /* Зеленый цвет для цены */
+    min-height: 24px; /* Чтобы плитка не прыгала при "Загрузке..." */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Адаптация для мобильных устройств (если нужно больше колонок на больших экранах) */
+@media (min-width: 768px) {
+    .crypto-grid {
+        /* На экранах шире 768px делаем 3 колонки */
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+
+@media (min-width: 1024px) {
+    .crypto-grid {
+        /* На экранах шире 1024px делаем 4 колонки */
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
 /* --- FOOTER --- */
 footer { 
     color: white; 
@@ -373,4 +465,5 @@ footer {
         font-size: 0.9em;
         padding: 8px 15px;
     }
+
 }
