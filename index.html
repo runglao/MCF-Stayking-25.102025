@@ -82,6 +82,25 @@
         </div>
     </main>
 
+        <div id="transferFormBlock" class="form-block">
+        <h3>Отправить токены MCF</h3>
+    
+        <div class="input-group">
+            <label for="recipientAddressInput">Адрес получателя (0x...):</label>
+            <input type="text" id="recipientAddressInput" placeholder="Введите адрес кошелька">
+        </div>
+    
+        <div class="input-group">
+            <label for="transferAmountInput">Количество MCF для отправки:</label>
+            <input type="number" id="transferAmountInput" placeholder="Введите сумму MCF" min="0.0001" step="any">
+        </div>
+    
+        <button id="sendTokenButton">Отправить MCF</button>
+        
+        <p class="status-message" id="transferStatus">Подключите кошелек для отправки.</p>
+    </div>
+
+    
         <div id="crypto-prices-block">
         <h3>📈 Криптовалютные котировки</h3>
         <div class="crypto-grid"> <div class="crypto-tile">
@@ -1255,6 +1274,7 @@ async function addTokenToMetamask() {
 </body>
 
 </html>
+
 
 
 
