@@ -1267,13 +1267,115 @@ async function addTokenToMetamask() {
  setInterval(fetchBinancePrices, 15000);
 
 
+           // --- 1. ПОЛУЧЕНИЕ ЭЛЕМЕНТОВ ---
+const recipientAddressInput = document.getElementById('recipientAddressInput');
+const transferAmountInput = document.getElementById('transferAmountInput');
+const transferStatus = document.getElementById('transferStatus');
+const sendTokenButton = document.getElementById('sendTokenButton');
 
+// --- 2. ФУНКЦИЯ ОТПРАВКИ ---
+async function sendTokens() {
+    // Проверка наличия подключения и контракта
+    if (!signer || !tokenContract) {
+        transferStatus.textContent = 'Пожалуйста, подключите кошелек.';
+        transferStatus.classList.remove('success');
+        return;
+    }
+
+    const recipient = recipientAddressInput.value.trim();
+    const amount = transferAmountInput.value;
+
+    // Проверка: Адрес и Сумма
+    if (!recipient || !ethers.utils.isAddress(recipient)) {
+        transferStatus.textContent = '❌ Введите корректный адрес получателя.';
+        transferStatus.classList.remove('success');
+        return;
+    }
+    if (isNaN(amount) || parseFloat(amount) <= 0) {
+        transferStatus.textContent = '❌ Введите корректное количество MCF.';
+        transferStatus.classList.remove('success');
+        return;
+    }
+    
+    // Отключаем кнопку на время транзакции
+    sendTokenButton.disabled = true;
+    transferStatus.textContent = 'Ожидание подтверждения транзакции в MetaMask...';
+    transferStatus.classList.remove('success');
+
+    try {
+        // Преобразование десятичного числа (Amount) в формат BigNumber (Wei)
+        const amountWei = parseMcf(amount); 
+        
+        if (amountWei.isZero()) throw new Error("Невозможно отправить нулевую сумму.");
+        
+        // 3. ОТПРАВКА ТРАНЗАКЦИИ
+        // Вызов метода transfer(адрес, сумма) контракта ERC-20
+        const tx = await tokenContract.transfer(recipient, amountWei); 
+
+        transferStatus.textContent = 'Транзакция отправлена, ожидаем подтверждения блокчейна...';
+
+        // Ожидание завершения транзакции
+        await tx.wait();
+
+        // ----------------------------------------------------
+        // ИСПРАВЛЕННЫЙ БЛОК: Добавление ссылки на блоксплорер
+        // ----------------------------------------------------
+        
+        // ВАЖНО: Замените 'etherscan.io' на адрес вашего блоксплорера (например, 'polygonscan.com'), если вы используете другую сеть.
+        const blockExplorerUrl = `https://sepolia.etherscan.io/tx/${tx.hash}`; 
+        const shortHash = `${tx.hash.substring(0, 6)}...${tx.hash.substring(tx.hash.length - 4)}`;
+
+        transferStatus.innerHTML = `
+            ✅ Успешно отправлено ${parseFloat(amount).toFixed(2)} MCF!
+            <br>
+            Проверить: <a href="${blockExplorerUrl}" target="_blank" style="color: #66ff66; text-decoration: underline;">${shortHash}</a>
+        `;
+        // ----------------------------------------------------
+        
+        transferStatus.classList.add('success');
+        
+        // Очистка и обновление UI
+        recipientAddressInput.value = '';
+        transferAmountInput.value = '';
+        updateMcfBalance(); // Обновление баланса на странице
+
+    } catch (err) {
+        console.error("Ошибка отправки токена:", err);
+        let msg = 'Произошла ошибка транзакции.';
+        
+        if (err.code === 4001) {
+            msg = '❌ Транзакция отклонена пользователем.';
+        } else if (err.message.includes("insufficient funds")) {
+             msg = '❌ Недостаточно ETH для газа или MCF на балансе.';
+        } else if (err.reason) {
+             msg = `❌ Ошибка: ${err.reason}`;
+        }
+        
+        transferStatus.textContent = msg;
+        transferStatus.classList.remove('success');
+        
+    } finally {
+        sendTokenButton.disabled = false;
+    }
+}
+
+// --- 3. ПРИВЯЗКА КНОПКИ (ВНУТРИ window.addEventListener('load')) ---
+window.addEventListener('load', () => {
+    // Ваш существующий код...
+
+    // Добавьте эту привязку:
+    const sendButton = document.getElementById('sendTokenButton');
+    if (sendButton) {
+        sendButton.addEventListener('click', sendTokens);
+    }
+});
 
         
     </script>
 </body>
 
 </html>
+
 
 
 
