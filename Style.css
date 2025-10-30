@@ -539,6 +539,122 @@ footer {
     color: #2ecc71;
 }
 
+
+
+
+
+/* ----------------------------------------------------------------- */
+/* СТИЛИ NFT КАРТОЧЕК */
+/* ----------------------------------------------------------------- */
+
+#nftMintSection {
+    margin-top: 40px;
+    padding: 20px 0;
+    color: #ffffff;
+}
+
+#nftMintSection h2 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+#nftCardsContainer {
+    /* Создаем адаптивную сетку */
+    display: grid;
+    /* На десктопе 4 колонки, если есть место */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.nft-card {
+    background: #1f2a38;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3e5066;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nft-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.nft-image-wrapper {
+    width: 100%;
+    /* Обеспечивает квадратное пространство для изображения */
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.nft-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Изображение будет покрывать все пространство */
+    display: block;
+}
+
+.nft-title {
+    color: #b0c4de;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.nft-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+/* Стили для кнопки минта */
+.mint-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Синий цвет для действия */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mint-button:hover {
+    background-color: #0056b3;
+}
+
+.mint-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Стили для мобильных устройств (уменьшаем колонки до 2) */
+@media (max-width: 992px) {
+    #nftCardsContainer {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Стили для очень маленьких экранов (одна колонка) */
+@media (max-width: 500px) {
+    #nftCardsContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
 /* --- АНИМАЦИЯ --- */
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
@@ -577,4 +693,5 @@ footer {
     }
 
 }
+
 
